@@ -1,5 +1,9 @@
-from sprite_entity import Entity
+# File  : hero.py
+# Brief : This file contains Hero class containing control flow of any Hero in the game
+
+from src.sprite_entity import Entity
 from utils import timer
+import src.default_config
 
 class Hero(Entity):
 

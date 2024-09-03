@@ -1,2 +1,4 @@
 tasks.txt
 __pycache__
+utils/__pycache__
+src/__pycache__

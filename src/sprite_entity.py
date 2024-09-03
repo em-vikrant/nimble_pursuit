@@ -26,10 +26,11 @@ class Entity(pygame.sprite.Sprite):
     def setIndvSpriteDimensions(self, dimensions):
         self.dimensions = dimensions
 
-    def addSpriteSheet(self, sprite_sheet_path, sprite_type, sprite_direction):
+    def addSpriteSheet(self, movement:tuple, sprite_sheet_path:str):
+        sprite_type, sprite_direction = movement
         if isinstance(sprite_type, Entity.SpriteType) and isinstance(sprite_direction, Entity.Direction):
             animation_frame_list = self.getFramesFromSprite(sprite_sheet_path)
-            self.animation_sprites[((sprite_type, sprite_direction))] = animation_frame_list
+            self.animation_sprites[movement] = animation_frame_list
     
     def getFramesFromSprite(self, sprite_sheet):
             frame_list = []
