@@ -1,7 +1,6 @@
 import pygame
 from enum import Enum
-
-WHITE=(255, 255, 255)
+from utils import constants
 
 class Entity(pygame.sprite.Sprite):
     class Direction(Enum):
@@ -22,24 +21,26 @@ class Entity(pygame.sprite.Sprite):
         self.dimensions = dimensions if dimensions != None else (64, 64)
         self.animation_sprites = {}
         self.current_animation_key = (Entity.SpriteType.NONE, Entity.Direction.IDLE)
+        self.color_key = constants.WHITE
     
     def setIndvSpriteDimensions(self, dimensions):
         self.dimensions = dimensions
 
-    def addSpriteSheet(self, movement:tuple, sprite_sheet_path:str):
+    def addSpriteSheet(self, movement:tuple, sprite_sheet_path:str, color_key = constants.WHITE):
+        self.color_key = color_key
         sprite_type, sprite_direction = movement
         if isinstance(sprite_type, Entity.SpriteType) and isinstance(sprite_direction, Entity.Direction):
-            animation_frame_list = self.getFramesFromSprite(sprite_sheet_path)
+            animation_frame_list = self.getFramesFromSprite(sprite_sheet_path, color_key)
             self.animation_sprites[movement] = animation_frame_list
     
-    def getFramesFromSprite(self, sprite_sheet):
+    def getFramesFromSprite(self, sprite_sheet, color_key):
             frame_list = []
             width, height = self.dimensions
             sprite_image = pygame.image.load(sprite_sheet).convert_alpha()
             num_frames = sprite_image.get_width() // width
             for frame_number in range(num_frames):
                 frame_image = pygame.Surface(self.dimensions).convert_alpha()
-                frame_image.fill(WHITE)
+                frame_image.fill(color_key)
                 frame_image.blit(sprite_image, (0, 0), (frame_number * width, 0, width, height))
                 frame_list.append(frame_image)
             return frame_list
@@ -55,7 +56,7 @@ class Entity(pygame.sprite.Sprite):
         if self.current_animation_key in self.animation_sprites:
             frame_image = self.animation_sprites[self.current_animation_key][frame_number - 1]
             frame_image = pygame.transform.scale(frame_image, (frame_image.get_width() * scale, frame_image.get_height() * scale))
-            frame_image.set_colorkey(WHITE)
+            frame_image.set_colorkey(self.color_key)
         else:
             # Empty surface in case of no frame found
             frame_image = pygame.Surface(self.dimensions).convert_alpha()

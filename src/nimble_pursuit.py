@@ -5,6 +5,7 @@ import pygame
 from src.hero import Hero
 from src.sprite_entity import Entity
 from src.default_config import DefaultConfig
+from utils import constants
 
 class Game:
     __WINDOW_DIMENSIONS = (800, 600)      # Window dimensions
@@ -102,7 +103,7 @@ class Game:
                         self.hero_jade.standing(Entity.Direction.RIGHT)
             # For loop end
 
-            self.__window.fill((150, 150, 150))
+            self.__window.fill(constants.LIGHT_GRAY)
             self.hero_jade.draw(self.__window)
 
             pygame.display.flip()
